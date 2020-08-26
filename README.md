@@ -1,10 +1,10 @@
-# NPMScripts
+# NPScripts
 List and run scripts from your package.json
 
 
 #### Without Global Install
 ``` bash
-npx npmscripts
+npx npscripts
 ```
 
 ## Install Globally
@@ -12,18 +12,18 @@ npx npmscripts
 #### NPM
 
 ``` bash
-npm install npmscripts --global
+npm install npscripts --global
 ```
 
 #### Yarn
 
 ``` bash
-yarn global add npmscripts
+yarn global add npscripts
 ```
 
 ## Usage
 
 ``` bash
-npmscripts
+scripts
 ```
 

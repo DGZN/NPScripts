@@ -1,14 +1,20 @@
 {
-  "name": "npmscripts",
+  "name": "npscripts",
   "version": "0.0.1",
   "description": "A simple module to list and run scripts in your package.json",
+  "bin": {
+    "scripts": "bin/index.js"
+  },
   "main": "index.js",
-  "scripts": {
-    
+  "files": [
+    "bin"
+  ],
+  "engines": {
+    "node": ">= 4"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DGZN/NPMScripts.git"
+    "url": "git+https://github.com/DGZN/NPScripts.git"
   },
   "keywords": [
     "NPM",
@@ -20,9 +26,9 @@
   "author": "Keiichi Lindley",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DGZN/NPMScripts/issues"
+    "url": "https://github.com/DGZN/NPScripts/issues"
   },
-  "homepage": "https://github.com/DGZN/NPMScripts#readme",
+  "homepage": "https://github.com/DGZN/NPScripts#readme",
   "dependencies": {
     "inquirer": "^7.3.3",
     "npm": "^6.14.8"
