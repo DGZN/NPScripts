@@ -1,6 +1,6 @@
 {
   "name": "npmscripts",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A simple module to list and run scripts in your package.json",
   "main": "index.js",
   "scripts": {
