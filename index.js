@@ -1,44 +1,45 @@
+const npm = require("npm");
 const inquirer = require("inquirer");
-const npm = require('npm');
-const path = require('path');
-const fs = require('fs');
+const NPScripts = require("./lib/NPScripts");
 
-let package;
+let npscripts = new NPScripts();
 
-if (!fs.existsSync(path.resolve(process.cwd(), 'package.json'))) {
-  console.error(
-    `No package.json file could be found at ${process.cwd()}`
-  );
-  process.exit(0);
-} else {
-  package = require(path.resolve(process.cwd(), "package.json"));
-}
+const questions = {
+  install: {
+    type: "list",
+    name: "install",
+    message:
+      "Package dpendencies have not been installed, would you like to install them?",
+    choices: ["Yes", "No"],
+    when: !npscripts.dependencies.installed
+  },
+  scripts: {
+    type: "list",
+    name: "script",
+    message: `\n[${npscripts.name}]\n${npscripts.description}\nWhich script would you like to run?`,
+    choices: Object.keys(npscripts.scripts),
+    when: npscripts.scripts && Object.keys(npscripts.scripts),
+  },
+};
 
-try {
-  if (!package || !package.hasOwnProperty("scripts")) {
-    console.error(`${package.name} does not have any scripts`);
-    process.exit(0);
-  }
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "script",
-        message: `\n[${package.name}]\n${
-          package.description || ""
-        }\nWhich script would you like to run?`,
-        choices: Object.keys(package.scripts || [""]),
-      },
-    ])
-    .then((answers) => {
-      npm.load(() => {
-        npm.run(answers.script);
+Object.assign(questions.install, {  })
+
+inquirer.prompt(questions.install)
+  .then(new Promise((res)=>res(npscripts.dependencies.install())))
+  .then(() => {
+    return new Promise(() => {
+      inquirer.prompt(questions.scripts).then((answers) => {
+        npm.load(() => {
+          try {
+            console.log(`[RUNNING::${answers.script}]`);
+            npm.run(answers.script);
+          } catch (e) {
+            
+          }
+        });
       });
     });
+  });
 
-} catch (e) {
-  console.error(e);
-  process.exit(1);
-}
- 
+
 
