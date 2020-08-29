@@ -1,6 +1,6 @@
 const npm = require("npm");
 const inquirer = require("inquirer");
-const NPScripts = require("./lib/NPScripts");
+const NPScripts = require(require('path').join(__dirname, "lib/NPScripts"));
 
 let npscripts = new NPScripts();
 
@@ -17,27 +17,29 @@ const questions = {
     type: "list",
     name: "script",
     message: `\n[${npscripts.name}]\n${npscripts.description}\nWhich script would you like to run?`,
-    choices: Object.keys(npscripts.scripts),
-    when: npscripts.scripts && Object.keys(npscripts.scripts),
+    choices: Object.keys(npscripts.scripts)
   },
 };
 
 Object.assign(questions.install, {  })
 
 inquirer.prompt(questions.install)
-  .then(new Promise((res)=>res(npscripts.dependencies.install())))
+  .then((answers) => {
+    return npscripts.dependencies.install();
+  })
   .then(() => {
-    return new Promise(() => {
-      inquirer.prompt(questions.scripts).then((answers) => {
-        npm.load(() => {
-          try {
-            console.log(`[RUNNING::${answers.script}]`);
-            npm.run(answers.script);
-          } catch (e) {
-            
-          }
+    inquirer.prompt(questions.scripts)
+      .then((answers) => {
+        return new Promise(() => {
+          npm.load(() => {
+            try {
+              console.log(`[RUNNING::${answers.script}]`);
+              npm.run(answers.script);
+            } catch (e) {
+              console.warn(e);
+            }
+          });
         });
-      });
     });
   });
 
