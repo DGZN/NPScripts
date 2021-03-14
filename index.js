@@ -1,6 +1,7 @@
 const npm = require("npm");
+const path = require("path");
 const inquirer = require("inquirer");
-const NPScripts = require(require('path').join(__dirname, "lib/NPScripts"));
+const NPScripts = require(path.join(path.resolve("./"), "lib/NPScripts"));
 
 let npscripts = new NPScripts();
 
